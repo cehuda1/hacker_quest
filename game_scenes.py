@@ -5,28 +5,32 @@ import game_def
 import time
 import random
 
-###############################################
+################################################
 #
 #               intro Scene
 #
 ################################################
 
 
+# Menggunakan custom CSS untuk mengubah warna latar belakang
 def introScene():
 
     # possible actions
-    directions = ["left", "right", "south", "help"]
-
+    directions = ["go", "right999", "south999", "help"]
+    clue = (f""" Ketik "GO" untuk memulai """)
+    st.header('Pintu Dungeon')
+    st.write('Level: 1')
     col1, col2 = st.columns(2, gap="small")
     with col1:
         # main_image
         st.image(game_config.image_source["introScene"])
-        st.write("Enchanted forest")
+        st.write("Hacker's Journey")
+
     with col2:
         # scene text
         if st.session_state["scenes_counter"]["intro_counter"] == 0:
             st.markdown(
-                f'<div class="fantasy-container"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>Welcome, {st.session_state.player_name},  to a fantastical realm of mystery and wonder. The path that brought you here has been long and winding - the decisions you\'ve made throughout your life have led you here. Now is the time to choose your path with caution and care, for the fate of this realm is in your hands. From the mystical fields of the west, to the dark caves of the east, this world awaits your exploration. But beware, for dangerous creatures and ancient magic lurk around every corner. May fortune be on your side as you embark on this journey.</p></div>',
+                f'<div class="fantasy-container"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>Selamat Datang, {st.session_state.player_name} Kamu akan memasuki dunia dungeon yang misterius dan penuh teka-teki. kamu akan menggunakan perintah Linux untuk membuka pintu terkunci, membaca file tersembunyi, dan mengatasi tantangan teknis lainnya.Dungeon ini dirancang untuk semua tingkat keahlian, dari pemula hingga ahli Linux. kegagalan akan membimbingmu melalui setiap langkah dengan jelas dan sederhana. Apakah kamu siap mulai petualangan Linux Anda dan temukan rahasia yang tersembunyi di dalam dungeon ini?</p></div>',
                 unsafe_allow_html=True,
             )
 
@@ -36,7 +40,7 @@ def introScene():
 
         else:
             st.markdown(
-                f'<div class="fantasy-container"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>You are back at the enchanted forest.</p></div>',
+                f'<div class="fantasy-container"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>Apakah kamu ketakutan?</p></div>',
                 unsafe_allow_html=True,
             )
 
@@ -51,11 +55,17 @@ def introScene():
     # 2. we trigger callback which copies input to temp. callback is called with argument that is passed to clear function
     # 3. text input is cleared
     directions_container.text_input(
-        "What to do?",
+        "Apa yang akan kamu lakukan?",
         key="introSceneActions",
         on_change=game_def.clear,
         args=["introSceneActions"],
     )
+
+    # if st.button('bantuan'):
+    #     st.info(f'Clue Jawaban: {clue}')
+    #     time.sleep(2.5)
+        # game_def.temp_clear()
+        # st.experimental_rerun()
 
     # this is probably redundancy
     scene_action = st.session_state["temp"]
@@ -67,36 +77,42 @@ def introScene():
         # --- HELP ---
         # ------------
         if scene_action.lower() == "help":
-            st.info(f'Potential actions: {", ".join(directions)}')
+            st.info(f'Clue Jawaban: {clue}')
+            time.sleep(3)
+            game_def.temp_clear()
+            st.experimental_rerun()
+            # game_def.temp_clear()
+            # st.experimental_rerun()
         # --- LEFT ---
         # ------------
-        if scene_action.lower() == "left":
-            st.session_state["scenes_counter"]["intro_counter"] += 1
-            st.session_state.place = (
-                "sheepScene"  # we are moving our character to other scene
-            )
-            game_def.temp_clear()  # we are claring text input
+        if scene_action.lower() == "go":
+            # st.session_state["scenes_counter"]["intro_counter"] += 1
+            st.session_state.place =  "sheepScene"  # we are moving our character to other scene
+            game_def.temp_clear()
             st.experimental_rerun()  # rerun is streamlit specific and rerund the app
+            st.success('pintu terbuka')  # we are claring text input
         # --- RIGHT ---
         # ------------
-        if scene_action.lower() == "right":
-            st.session_state["scenes_counter"]["intro_counter"] += 1
-            st.session_state.place = "caveScene"
-            game_def.temp_clear()
-            st.experimental_rerun()
-        if scene_action.lower() == "south":
-            st.session_state["scenes_counter"]["intro_counter"] += 1
-            st.session_state.place = "southpathScene"
-            game_def.temp_clear()
-            st.experimental_rerun()
+        # if scene_action.lower() == "right":
+        #     st.session_state["scenes_counter"]["intro_counter"] += 1
+        #     st.session_state.place = "caveScene"
+        #     game_def.temp_clear()
+        #     st.experimental_rerun()
+
+        # if scene_action.lower() == "south":
+        #     st.session_state["scenes_counter"]["intro_counter"] += 1
+        #     st.session_state.place = "southpathScene"
+        #     game_def.temp_clear()
+        #     st.experimental_rerun()
 
     else:
         # what should happen if wrong action is selected
         if scene_action != "":
-            st.info("Please provide right input")
-            dir = f'Potential actions: {", ".join(directions)}'
-            stoggle("Help", dir)
-            st.write("")
+            st.success("input tidak valid")
+            time.sleep(1.5)
+            game_def.temp_clear()
+            st.experimental_rerun()
+            # stoggle("Butuh bantuan?",dir)
 
 
 ###############################################
@@ -109,21 +125,31 @@ def introScene():
 def sheepScene():
 
     # possible actions
-    directions = ["left", "right", "back", "pet", "help"]
+    st.header("""The Hidden Door""")
+    st.write('Level: 2')
+    directions = ["cd .riddles", "back", "back999", "pet999", "help"]
+    clue = "Command basic linux untuk memasuki directory"
 
     col1, col2 = st.columns(2, gap="small")
     with col1:
         # scene image
         st.image(game_config.image_source["sheepScene"])
-        st.write("Magical sheep")
+        st.write("Greet Door")
     with col2:
         st.markdown(
-            f'<div class="fantasy-container" style="min-height:258.17px"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>You see a sheep grazing in a grassy meadow. A gentle mist hangs in the air, and a mystical glow surrounds the area. As you approach the sheep, you notice a magical aura emanating from it. Go on, try to pet it.</p></div>',
+            f'<div class="fantasy-container" style="min-height:258.17px"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>Ah, ini terlalu gelap.Hei, apa ini? kamu menemukan pintu tersembunyi dari sejarahnya dungeon ini berisikan banyak pintu salah satunya adalah pintu bernama ".riddles". menurut sejarah Di dalamnya salah satu pintu dalam dungeon ini berisikan sebuah harta yang melimpah!. Lantas bagaimana kamu akan menggunakan perintah untuk memasuki pintu tersebut?</p></div>',
             unsafe_allow_html=True,
         )
         audio_file = open("audio/sheep.mp3", "rb")
         audio_bytes = audio_file.read()
         st.audio(audio_bytes, format="audio/mpeg")
+    # if st.button('back'):
+    #     # st.session_state["scenes_counter"]["intro_counter"] -= 1
+    #     st.session_state.place =  "introScene"  # we are moving our character to other scene
+    #     game_def.temp_clear()
+    #     st.experimental_rerun()
+        # game_def.temp_clear()
+        # st.experimental_rerun()
 
     # for some reason we have here lenghty interaciton with sheep
 
@@ -134,7 +160,7 @@ def sheepScene():
 
     # clearing text_input was suprisingly hard to figure out
     directions_container.text_input(
-        "What to do?",
+        "Apa yang akan kamu lakukan?",
         key="sheepSceneActions",
         on_change=game_def.clear,
         args=["sheepSceneActions"],
@@ -146,73 +172,77 @@ def sheepScene():
         # --- HELP ---
         # ------------
         if scene_action.lower() == "help":
-            st.info(f'Potential actions: {", ".join(directions)}')
+            st.info(f'Clue Jawaban: {clue}')
+            time.sleep(3)
+            game_def.temp_clear()
+            st.experimental_rerun()
         # --- LEFT ---
         # ------------
-        if scene_action.lower() == "left":
-            st.write("There is nothing there")
+        if scene_action.lower() == "cd .riddles":
+            st.session_state["scenes_counter"]["intro_counter"] += 1
+            st.session_state.place = "caveScene"  # we are moving our character to other scene
+            st.experimental_rerun()
         # --- BACK OR RIGHT ---
         # ---------------------
-        if scene_action.lower() == "back" or scene_action.lower() == "right":
+        if scene_action.lower() == "back":
             st.session_state.place = "introScene"
             game_def.temp_clear()
             st.experimental_rerun()
         # ---PET THE SHEEP ---
         # ---------------------
-        if scene_action.lower() == "pet":
+        # if scene_action.lower() == "pet":
 
-            # progress bar for petting sheep
-            my_bar = st.empty()
-            my_bar.progress(0)
+        #     # progress bar for petting sheep
+        #     my_bar = st.empty()
+        #     my_bar.progress(0)
 
-            for percent_complete in range(100):
-                time.sleep(0.01)
-                my_bar.progress(percent_complete + 1)
-            my_bar.empty()
+        #     for percent_complete in range(100):
+        #         time.sleep(0.01)
+        #         my_bar.progress(percent_complete + 1)
+        #     my_bar.empty()
 
             # --- Sheep shares his wealth ---
-            random_gold = random.randint(4, 8)
+            # random_gold = random.randint(4, 8)
 
-            if st.session_state.sheep_anger < 5:
+            # if st.session_state.sheep_anger < 5:
 
-                st.success(
-                    "Sheep goes: streeeeaaamlit and gives you "
-                    + str(random_gold)
-                    + " coins"
-                )
-                st.session_state.gold = st.session_state.gold + random_gold
+            #     st.success(
+            #         "Sheep goes: streeeeaaamlit and gives you "
+            #         + str(random_gold)
+            #         + " coins"
+            #     )
+            #     st.session_state.gold = st.session_state.gold + random_gold
 
-            # --- Sheep becomes angrier ---
-            st.session_state.sheep_anger = st.session_state.sheep_anger + 1
+            # # --- Sheep becomes angrier ---
+            # st.session_state.sheep_anger = st.session_state.sheep_anger + 1
 
-            if st.session_state.sheep_anger > 2 and st.session_state.sheep_anger < 6:
-                st.success("Sheep is becoming a little bit anoyed ")
+            # if st.session_state.sheep_anger > 2 and st.session_state.sheep_anger < 6:
+            #     st.success("Sheep is becoming a little bit anoyed ")
 
-            # --- too much pets ---
-            if st.session_state.sheep_anger == 5:
-                st.success(
-                    "Sheep has enough of pets and bites your arm off. You lose 50 HP!"
-                )
-                st.session_state.health = st.session_state.health - 50
-            if st.session_state.sheep_anger > 5 and st.session_state.sheep_anger < 10:
-                random_number_of_dots = random.randint(3, 20)
-                annoyed_sheep = (
-                    "".join("." for i in range(random_number_of_dots)) + "no"
-                )
-                st.success(annoyed_sheep)
-            if st.session_state.sheep_anger >= 10:
-                st.success(
-                    'Sheep states in an unusually low, human voice: "Violence is not an answer, but it could be if you don\'t stop"'
-                )
+            # # --- too much pets ---
+            # if st.session_state.sheep_anger == 5:
+            #     st.success(
+            #         "Sheep has enough of pets and bites your arm off. You lose 50 HP!"
+            #     )
+            #     st.session_state.health = st.session_state.health - 50
+            # if st.session_state.sheep_anger > 5 and st.session_state.sheep_anger < 10:
+            #     random_number_of_dots = random.randint(3, 20)
+            #     annoyed_sheep = (
+            #         "".join("." for i in range(random_number_of_dots)) + "no"
+            #     )
+            #     st.success(annoyed_sheep)
+            # if st.session_state.sheep_anger >= 10:
+            #     st.success(
+            #         'Sheep states in an unusually low, human voice: "Violence is not an answer, but it could be if you don\'t stop"'
+            #     )
 
     else:
-
         # what should happen if wrong action is selected
-        if scene_action != "":
-            st.info("Please provide right input")
-            dir = f'Potential actions: {", ".join(directions)}'
-            stoggle("Help", dir)
-            st.write("")
+            if scene_action != "":
+                st.success("input tidak valid")
+                time.sleep(1.5)
+                game_def.temp_clear()
+                st.experimental_rerun()
 
 
 ###############################################
@@ -223,9 +253,10 @@ def sheepScene():
 
 
 def caveScene():
-
+    st.header("Raungan Monster!")
+    st.write('Level: 3')
     # possible actions
-    directions = ["up", "back", "help"]
+    directions = ["ls", "ls -la", "ls -l","help","cat key.txt"]
 
     col1, col2 = st.columns(2, gap="small")
     with col1:
@@ -237,7 +268,7 @@ def caveScene():
         # conditional if you have already seen the scene
         if st.session_state["scenes_counter"]["cave_counter"] == 0:
             st.markdown(
-                f'<div class="fantasy-container"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>After walking for 2 hours through the enchanted forest, you stumble across a mysterious cave. Legends say that if you stare into the abyss, the abyss will stare back at you. A faint glimmer of light seems to be emanating from the depths of the cave. An eerie chill runs down your spine as you walk closer, but you can\'t help but be curious of the unknown. Are you brave enough to enter the depths of this mysterious cave, despite the fear of the unknown darkness?</p></div>',
+                f'<div class="fantasy-container"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>{st.session_state.player_name} : "Ruangan ini begitu gelap" <br> ???: "Rawrrrrrr"<br>{st.session_state.player_name} : "Suara apa itu!" <br><br>Sosok misterius sedang mengejarmu. cepat buka laci dan ambil "kunci" untuk melarikan diri! namun perlu di ingat dalam sebuah laci itu banyak tumpukan berkas. Bagaimana kamu akan menggunakan perintah linux untuk melihat isi laci itu dan mencari kunci yang di maksud untuk segera melarikan diri</p></div>',
                 unsafe_allow_html=True,
             )
             audio_file = open("audio/cave.mp3", "rb")
@@ -254,13 +285,9 @@ def caveScene():
     # caption below input
     st.caption(game_config.caption_below_input)
 
-    if st.session_state["scenes_counter"]["trip_counter"] == 0:
-        st.success("You feel exhausted and lose -5HP")
-        st.session_state.health = st.session_state.health - 5
-        st.session_state["scenes_counter"]["trip_counter"] = 1
 
     directions_container.text_input(
-        "What to do?",
+        "Apa yang akan kamu lakukan?",
         key="caveSceneActions",
         on_change=game_def.clear,
         args=["caveSceneActions"],
@@ -272,29 +299,39 @@ def caveScene():
         # --- HELP ---
         # ------------
         if scene_action.lower() == "help":
-            st.info(f'Potential actions: {", ".join(directions)}')
-        # --- back ---
-        # ------------
-        if scene_action.lower() == "back":
-            st.session_state["scenes_counter"]["cave_counter"] += 1
-            st.session_state.place = "introScene"
+            st.info(f'Clue Jawaban: kamu harus menegtahui nama kunci yang ada di directory, kemudan ungkap isi dari kunci tersebut')
+            time.sleep(6)
             game_def.temp_clear()
             st.experimental_rerun()
+        # --- back ---
+        if scene_action.lower() == "ls" or "ls -la" or "ls -l":
+            st.markdown(
+                f'<div class="fantasy-container"><p>List Files<br>1. dump.sql . . . . . . . . . . . . . . 4. shell.php<br>2. weapon.html . . . . . . . . . . . 5. key.txt<br>3. hidden.txt . . . . . . . . . . . . . 6. huda_ganteng.zip</p></div>',
+                unsafe_allow_html=True,
+            )
+        # ------------
+        # if scene_action.lower() == "back":
+        #     st.session_state["scenes_counter"]["cave_counter"] += 1
+        #     st.session_state.place = "introScene"
+        #     game_def.temp_clear()
+        #     st.experimental_rerun()
         # --- up ---
         # ------------
-        if scene_action.lower() == "up":
+        if scene_action.lower() == "cat key.txt":
             st.session_state["scenes_counter"]["cave_counter"] += 1
-            st.session_state.place = "poScene"
-            game_def.temp_clear()
-            st.experimental_rerun()
+            # st.session_state.place = "poScene"
+            # game_def.temp_clear()
+            # st.experimental_rerun()
+            st.balloons()
+            st.header('Cooming Soon, lagi digarap')
 
     else:
         # what should happen if wrong action is selected
         if scene_action != "":
-            st.info("Please provide right input")
-            dir = f'Potential actions: {", ".join(directions)}'
-            stoggle("Help", dir)
-            st.write("")
+                st.success("input tidak valid")
+                time.sleep(1.5)
+                game_def.temp_clear()
+                st.experimental_rerun()
 
 
 ###############################################
@@ -330,7 +367,7 @@ def poScene():
     st.caption(game_config.caption_below_input)
 
     directions_container.text_input(
-        "What to do?",
+        "Apa yang akan kamu lakukan?",
         key="poSceneActions",  # potentially dynamic key based on function name?
         on_change=game_def.clear,
         args=["poSceneActions"],  # potentially dynamic key based on function name?
@@ -430,16 +467,16 @@ def dragonScene():
         )
         directions_container = st.empty()
         st.caption(
-            'Use mouse or [Tab] to focus on input field. To check potential actions, type "help".'
+            'Gunakan krusor atau [Tab] untuk fokus ke kolom form. Untuk memeriksa commnad, ketik "help".'
         )
 
         # # st.session_state
         # scene_action = directions_container.text_input(
-        #     "What to do?", key="dragonSceneActions"
+        #     "Apa yang akan kamu lakukan?", key="dragonSceneActions"
         # )
 
         directions_container.text_input(
-            "What to do?",
+            "Apa yang akan kamu lakukan?",
             key="dragonSceneActions",  # potentially dynamic key based on function name?
             on_change=game_def.clear,
             args=[
@@ -553,7 +590,7 @@ def southpathScene():
     st.caption(game_config.caption_below_input)
 
     directions_container.text_input(
-        "What to do?",
+        "Apa yang akan kamu lakukan?",
         key=scene_identifier + "SceneActions",
         on_change=game_def.clear,
         args=[scene_identifier + "SceneActions"],
@@ -646,7 +683,7 @@ def elfScene():
     st.caption(game_config.caption_below_input)
 
     directions_container.text_input(
-        "What to do?",
+        "Apa yang akan kamu lakukan?",
         key=scene_identifier + "SceneActions",
         on_change=game_def.clear,
         args=[scene_identifier + "SceneActions"],

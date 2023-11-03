@@ -10,7 +10,7 @@ import game_scenes
 
 # -------------- app config ---------------
 
-st.set_page_config(page_title="StreamlitLand Adventure RPG", page_icon="🐲")
+st.set_page_config(page_title="Harcke's Quest Journey", page_icon="⚔")
 
 # define external css
 def local_css(file_name):
@@ -77,22 +77,40 @@ local_css("style.css")
 
 
 welcome = st.empty()
-welcome.title("Welcome to StreamlitLand, adventurer!")
+welcome.title("Welcome to Hacker Quest, Adventure!")
 
 # hero base statistics
 
 player_name_container = st.empty()
 player_name_container.text_input(
-    "State your name and hit enter to start the game", key="player_name"
+    "Masukkan nama dan tekan enter untuk memulai petualangan", key="player_name"
 )
 main_text_container = st.empty()
-main_text_container.caption("Create your own adventure visit [GitHub](https://github.com/TomJohnH/streamlit-dungeon)")
+# main_text_container.caption("Create your own adventure visit [GitHub](https://github.com/TomJohnH/streamlit-dungeon)")
 
 
+# if st.button("Start"):
+#     if st.session_state.player_name != "":
+#         player_name_container.empty()
+#         main_text_container.empty
+#         start = True
+#         while start is True:
+#             with st.spinner('Wait for it...'):
+#                 time.sleep(5)
+#                 st.success('Done!')
 if st.session_state.player_name != "":
     player_name_container.empty()
 
     main_text_container.empty()
+    
+    # progress_text = "Operation in progress. Please wait."
+    # my_bar = st.progress(0, text=progress_text)
+
+    # for percent_complete in range(100):
+    #     time.sleep(0.01)
+    #     my_bar.progress(percent_complete + 1, text=progress_text)
+    # time.sleep(1)
+    # my_bar.empty()
     start = True
 
 # START THE GAME
@@ -121,16 +139,17 @@ if start:
 
     # player stats
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric(label="Health", value=st.session_state.health, delta=0)
-    col2.metric(label="Mana", value=st.session_state.mana, delta=0)
-    col3.metric(label="Gold", value=st.session_state.gold, delta=0)
-    style_metric_cards(
-        background_color="#black", border_color="#21212f", border_left_color="#21212f"
-    )
+    # col1 = st.columns(1)
+    # # col1, col2, col3 = st.columns(3)
+    # col1.metric(label="Health", value=st.session_state.health, delta=0)
+    # # col2.metric(label="Mana", value=st.session_state.mana, delta=0)
+    # # col3.metric(label="Gold", value=st.session_state.gold, delta=0)
+    # style_metric_cards(
+    #     background_color="#black", border_color="#21212f", border_left_color="#21212f"
+    # )
 
-    if st.session_state["sword"] == 1:
-        st.write("🗡️ sword equipped")
+    # if st.session_state["sword"] == 1:
+    #     st.write("🗡️ sword equipped")
 
 # this part of the code focuses input on text window
 # please note that counter is required - for streamlit specific it does not work without it
@@ -160,12 +179,12 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # ------------ footer  ---------------------------
 
-st.markdown(
-    f"""
-    <div class="bpad" id="bpad">
-    <a href="https://www.buymeacoffee.com/tomjohn" style="color: grey; text-decoration:none;">
-    <div class="coffee_btn" >
-    <img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/coffe.png" style="max-width:20px;margin-right:10px;">
-    Buy me a coffee</a></div></div>""",
-    unsafe_allow_html=True,
-)
+# st.markdown(
+#     f"""
+#     <div class="bpad" id="bpad">
+#     <a href="https://cehuda.id" style="color: grey; text-decoration:none;">
+#     <div class="coffee_btn" >
+#     <img src="https://raw.githubusercontent.com/tailwindlabs/blog.tailwindcss.com/master/public/mstile-70x70.png" style="max-width:20px;margin-right:10px;">
+#     Visit Our Web</a></div></div>""",
+#     unsafe_allow_html=True,
+# )

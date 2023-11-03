@@ -1,10 +1,10 @@
-caption_below_input = 'Use mouse or [Tab] to focus on input field. To check potential actions, type "help".'
+caption_below_input = 'Gunakan krusor atau [Tab] untuk fokus ke kolom form. Untuk memeriksa commnad, ketik "help".'
 # future improvements: all texts will be transferred to database this will clean up the code
 
 image_source = {
-    "introScene": "images/intro.png",
-    "sheepScene": "images/sheep.jpg",
-    "caveScene": "images/cave.jpg",
+    "introScene": "images/dungeon.png",
+    "sheepScene": "images/masuk.jpg",
+    "caveScene": "images/monster.jpg",
     "poScene": "images/po.jpg",
     "dragonScene": "images/NNdragon.png",
     "libraryScene": "images/library.jpg",
