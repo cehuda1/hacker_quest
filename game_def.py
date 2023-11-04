@@ -1,4 +1,5 @@
 import streamlit as st
+import base64
 
 ###############################################
 #
@@ -42,3 +43,21 @@ def restart_session():
         "trip_counter": 0,
         "elf_counter": 0,
     }
+def autoplay_audio(file_path: str):
+    with open(file_path, "rb") as f:
+        data = f.read()
+        b64 = base64.b64encode(data).decode()
+        md = f"""
+            <style>
+                .hidden-audio {{
+                    display: none;
+                }}
+            </style>
+            <audio class="hidden-audio" controls autoplay="true">
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+            """
+        st.markdown(
+            md,
+            unsafe_allow_html=True,
+        )

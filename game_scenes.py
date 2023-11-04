@@ -4,7 +4,6 @@ import game_config
 import game_def
 import time
 import random
-
 ################################################
 #
 #               intro Scene
@@ -12,9 +11,9 @@ import random
 ################################################
 
 
-# Menggunakan custom CSS untuk mengubah warna latar belakang
-def introScene():
 
+
+def introScene():
     # possible actions
     directions = ["go", "right999", "south999", "help"]
     clue = (f""" Ketik "GO" untuk memulai """)
@@ -34,9 +33,8 @@ def introScene():
                 unsafe_allow_html=True,
             )
 
-            audio_file = open("audio/intro.mp3", "rb")
-            audio_bytes = audio_file.read()
-            st.audio(audio_bytes, format="audio/mpeg")
+            # Audio Play Automation
+            game_def.autoplay_audio("audio/1.mp3")
 
         else:
             st.markdown(

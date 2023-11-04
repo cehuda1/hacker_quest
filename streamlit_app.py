@@ -5,13 +5,14 @@ from streamlit_extras.metric_cards import style_metric_cards
 import time
 import random
 import game_scenes
+import game_def
 
 # additional components from https://extras.streamlit.app/
 
 # -------------- app config ---------------
 
 st.set_page_config(page_title="Harcke's Quest Journey", page_icon="⚔")
-
+game_def.autoplay_audio('audio/medival1.mp3')
 # define external css
 def local_css(file_name):
     with open(file_name) as f:
@@ -79,12 +80,14 @@ local_css("style.css")
 welcome = st.empty()
 welcome.title("Welcome to Hacker Quest, Adventure!")
 
+
 # hero base statistics
 
 player_name_container = st.empty()
 player_name_container.text_input(
     "Masukkan nama dan tekan enter untuk memulai petualangan", key="player_name"
 )
+
 main_text_container = st.empty()
 # main_text_container.caption("Create your own adventure visit [GitHub](https://github.com/TomJohnH/streamlit-dungeon)")
 
@@ -116,11 +119,12 @@ if st.session_state.player_name != "":
 # START THE GAME
 
 if start:
-
+    game_def.autoplay_audio('audio/sword.mp3')
     # delete welcome
     welcome.empty()
 
     if st.session_state.place == "introScene":
+        time.sleep(1.5)
         game_scenes.introScene()
     elif st.session_state.place == "sheepScene":
         game_scenes.sheepScene()
