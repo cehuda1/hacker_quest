@@ -84,11 +84,13 @@ def introScene():
         # --- LEFT ---
         # ------------
         if scene_action.lower() == "go":
+            game_def.autoplay_audio("audio/sword.mp3")
             # st.session_state["scenes_counter"]["intro_counter"] += 1
             st.session_state.place =  "sheepScene"  # we are moving our character to other scene
             game_def.temp_clear()
             st.experimental_rerun()  # rerun is streamlit specific and rerund the app
             st.success('pintu terbuka')  # we are claring text input
+            time.sleep(1.5)
         # --- RIGHT ---
         # ------------
         # if scene_action.lower() == "right":
@@ -127,6 +129,7 @@ def sheepScene():
     st.write('Level: 2')
     directions = ["cd .riddles", "back", "back999", "pet999", "help"]
     clue = "Command basic linux untuk memasuki directory"
+    game_def.autoplay_audio("audio/2.mp3")
 
     col1, col2 = st.columns(2, gap="small")
     with col1:
@@ -138,9 +141,9 @@ def sheepScene():
             f'<div class="fantasy-container" style="min-height:258.17px"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>Ah, ini terlalu gelap.Hei, apa ini? kamu menemukan pintu tersembunyi dari sejarahnya dungeon ini berisikan banyak pintu salah satunya adalah pintu bernama ".riddles". menurut sejarah Di dalamnya salah satu pintu dalam dungeon ini berisikan sebuah harta yang melimpah!. Lantas bagaimana kamu akan menggunakan perintah untuk memasuki pintu tersebut?</p></div>',
             unsafe_allow_html=True,
         )
-        audio_file = open("audio/sheep.mp3", "rb")
-        audio_bytes = audio_file.read()
-        st.audio(audio_bytes, format="audio/mpeg")
+        # audio_file = open("audio/sheep.mp3", "rb")
+        # audio_bytes = audio_file.read()
+        # st.audio(audio_bytes, format="audio/mpeg")
     # if st.button('back'):
     #     # st.session_state["scenes_counter"]["intro_counter"] -= 1
     #     st.session_state.place =  "introScene"  # we are moving our character to other scene
@@ -180,6 +183,8 @@ def sheepScene():
             st.session_state["scenes_counter"]["intro_counter"] += 1
             st.session_state.place = "caveScene"  # we are moving our character to other scene
             st.experimental_rerun()
+            game_def.autoplay_audio("audio/1.mp3")
+            time.sleep(1.5)
         # --- BACK OR RIGHT ---
         # ---------------------
         if scene_action.lower() == "back":
@@ -252,9 +257,12 @@ def sheepScene():
 
 def caveScene():
     st.header("Raungan Monster!")
+    game_def.autoplay_audio("audio/monster.mp3")
     st.write('Level: 3')
     # possible actions
-    directions = ["ls", "ls -la", "ls -l","help","cat key.txt"]
+    directions = ["ls", "ls -la", "ls -l","help","cat key.txt","back","python"]
+    time.sleep(2)
+    game_def.autoplay_audio("audio/monster-2.mp3")
 
     col1, col2 = st.columns(2, gap="small")
     with col1:
@@ -274,7 +282,7 @@ def caveScene():
             st.audio(audio_bytes, format="audio/mpeg")
         else:
             st.markdown(
-                f'<div class="fantasy-container"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>You are back at the cave.</p></div>',
+                f'<div class="fantasy-container"><img src="https://raw.githubusercontent.com/TomJohnH/streamlit-game/main/images/cat.gif" class="image"><p>Apa yang kamu cari?... hei! ada ular peliharan monster tertingal disini. <br><br>disebut apakah ular tersebut di dalam bahasa pemrograman?</p></div>',
                 unsafe_allow_html=True,
             )
 
@@ -303,25 +311,28 @@ def caveScene():
             st.experimental_rerun()
         # --- back ---
         if scene_action.lower() == "ls" or "ls -la" or "ls -l":
+            st.success("membuka laci")
+            game_def.autoplay_audio("audio/meja.mp3")
+            time.sleep(2)
             st.markdown(
                 f'<div class="fantasy-container"><p>List Files<br>1. dump.sql . . . . . . . . . . . . . . 4. shell.php<br>2. weapon.html . . . . . . . . . . . 5. key.txt<br>3. hidden.txt . . . . . . . . . . . . . 6. huda_ganteng.zip</p></div>',
                 unsafe_allow_html=True,
             )
         # ------------
-        # if scene_action.lower() == "back":
-        #     st.session_state["scenes_counter"]["cave_counter"] += 1
-        #     st.session_state.place = "introScene"
-        #     game_def.temp_clear()
-        #     st.experimental_rerun()
+        if scene_action.lower() == "back":
+            # st.session_state["scenes_counter"]["cave_counter"] += 1
+            st.session_state.place = "caveScene"
+            game_def.temp_clear()
+            st.experimental_rerun()
         # --- up ---
         # ------------
-        if scene_action.lower() == "cat key.txt":
-            st.session_state["scenes_counter"]["cave_counter"] += 1
-            # st.session_state.place = "poScene"
-            # game_def.temp_clear()
-            # st.experimental_rerun()
-            st.balloons()
-            st.header('Cooming Soon, lagi digarap')
+        if scene_action.lower() == "cat key.txt" or "python":
+            # st.session_state["scenes_counter"]["cave_counter"] += 1
+            st.session_state.place = "poScene"
+            game_def.temp_clear()
+            st.experimental_rerun()
+            # st.balloons()
+            # st.header('Cooming Soon, lagi digarap')
 
     else:
         # what should happen if wrong action is selected

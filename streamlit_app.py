@@ -13,6 +13,8 @@ import game_def
 
 st.set_page_config(page_title="Harcke's Quest Journey", page_icon="⚔")
 game_def.autoplay_audio('audio/medival1.mp3')
+
+
 # define external css
 def local_css(file_name):
     with open(file_name) as f:
